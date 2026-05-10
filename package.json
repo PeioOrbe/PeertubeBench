@@ -1,0 +1,15 @@
+{
+  "name": "peertube-benchmark",
+  "version": "1.0.0",
+  "description": "PeerTube P2P bandwidth benchmark",
+  "main": "coordinator.js",
+  "scripts": {
+    "coordinator": "node coordinator.js",
+    "collect": "node collect-metrics.js",
+    "analyze": "node analyze.js",
+    "viewer": "node viewer.js"
+  },
+  "dependencies": {
+    "playwright": "^1.40.0"
+  }
+}
