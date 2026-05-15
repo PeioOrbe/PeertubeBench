@@ -620,30 +620,24 @@ async function runViewer() {
   // Navigation
   // ------------------------------------------------------
 
-  const url =
-    `${config.peertubeUrl}/w/${config.videoSlug}`;
+  const url = `${config.peertubeUrl}/w/${config.videoSlug}`;
 
   await page.goto(url, {
     waitUntil: 'domcontentloaded',
     timeout: 120000
   });
 
-  await page.waitForSelector('video', {
+  // Esperar a que el reproductor de PeerTube cargue su interfaz visible
+  await page.waitForSelector('.vjs-big-play-button', {
+    state: 'visible',
     timeout: 120000
   });
 
-  await page.evaluate(async () => {
-    const video =
-      document.querySelector('video');
+  // Hacer clic humano para desencadenar el HLS y WebTorrent
+  await page.click('.vjs-big-play-button');
 
-    if (video) {
-      try {
-        await video.play();
-        window.qoeStats.autoplayBlocked = false;
-      } catch (_) {
-        window.qoeStats.autoplayBlocked = true;
-      }
-    }
+  await page.evaluate(async () => {
+    window.qoeStats.autoplayBlocked = false;
   });
 
   // ------------------------------------------------------
