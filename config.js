@@ -1,6 +1,6 @@
 module.exports = {
-  peertubeUrl: 'https://TU-INSTANCIA',
-  videoSlug: 'SLUG-DEL-VIDEO-O-LIVE',
+  peertubeUrl: 'https://34.12.185.63',
+  videoSlug: 'wrWacCKkXAtDF6ERxgdXSc',
   viewersPerVM: 10,
   launchRate: 2,
   networkThrottle: {
@@ -11,5 +11,5 @@ module.exports = {
   testDuration: 600,
   p2pDisabledRatio: 0,
   metricsInterval: 10,
-  prometheusUrl: 'http://TU-INSTANCIA_PROMETHEUS:9090'
+  prometheusUrl: 'http://34.12.185.63:9090'
 };
