@@ -628,13 +628,27 @@ async function runViewer() {
   });
 
   // Esperar a que el reproductor de PeerTube cargue su interfaz visible
+// Esperar a que el botón exista en el código HTML (sin importar si es visible o no)
   await page.waitForSelector('.vjs-big-play-button', {
-    state: 'visible',
+    state: 'attached',
     timeout: 120000
   });
 
-  // Hacer clic humano para desencadenar el HLS y WebTorrent
-  await page.click('.vjs-big-play-button');
+  // Inyectar JavaScript puro para forzar el clic internamente
+  await page.evaluate(() => {
+    const video = document.querySelector('video');
+    
+    // Si por casualidad el navegador ya lo arrancó automáticamente, lo dejamos en paz
+    if (video && !video.paused) {
+      return;
+    }
+    
+    // Si está pausado, obligamos al botón a recibir un clic
+    const playBtn = document.querySelector('.vjs-big-play-button');
+    if (playBtn) {
+      playBtn.click();
+    }
+  });
 
   await page.evaluate(async () => {
     window.qoeStats.autoplayBlocked = false;
