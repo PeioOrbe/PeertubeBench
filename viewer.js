@@ -635,9 +635,9 @@ async function runViewer() {
     console.log(`[${vmId}/${viewerId}] 🛑 P2P DESACTIVADO para este espectador.`);
   }
 
-  // 2. Generar un retraso aleatorio (entre 0 y 45 segundos) para evitar la estampida
-  const randomDelay = Math.floor(Math.random() * 45000);
-  console.log(`[${vmId}/${viewerId}] Esperando ${(randomDelay / 1000).toFixed(1)}s antes de entrar al vídeo...`);
+  // 2. Random delay between 1s and 5min to simulate users joining at different times
+  const randomDelay = 1000 + Math.floor(Math.random() * 299000);
+  console.log(`[${vmId}/${viewerId}] Waiting ${(randomDelay / 1000).toFixed(1)}s before joining...`);
   await new Promise(resolve => setTimeout(resolve, randomDelay));
 
   // ------------------------------------------------------
