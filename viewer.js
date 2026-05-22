@@ -617,18 +617,43 @@ async function runViewer() {
   });
 
   // ------------------------------------------------------
+  // 🚦 RAMP-UP (Escalonamiento) y P2P Toggle
+  // ------------------------------------------------------
+
+  // 1. Detectar si estamos en la prueba sin P2P (50% viewers pares)
+  const isHalfP2PTest = process.env.HALF_P2P === 'true';
+  const isEvenViewer = parseInt(viewerId, 10) % 2 === 0;
+  const disableP2P = isHalfP2PTest && isEvenViewer;
+
+  if (disableP2P) {
+    // Matar las APIs de WebRTC antes de cargar la web
+    await page.addInitScript(() => {
+      window.RTCPeerConnection = undefined;
+      window.webkitRTCPeerConnection = undefined;
+      window.RTCDataChannel = undefined;
+    });
+    console.log(`[${vmId}/${viewerId}] 🛑 P2P DESACTIVADO para este espectador.`);
+  }
+
+  // 2. Generar un retraso aleatorio (entre 0 y 45 segundos) para evitar la estampida
+  const randomDelay = Math.floor(Math.random() * 45000);
+  console.log(`[${vmId}/${viewerId}] Esperando ${(randomDelay / 1000).toFixed(1)}s antes de entrar al vídeo...`);
+  await new Promise(resolve => setTimeout(resolve, randomDelay));
+
+  // ------------------------------------------------------
   // Navigation
   // ------------------------------------------------------
 
-  const url = `${config.peertubeUrl}/w/${config.videoSlug}`;
+  // Añadimos el parámetro p2p=0 a la URL si el P2P está desactivado
+  const p2pParam = disableP2P ? '?p2p=0' : '';
+  const url = `${config.peertubeUrl}/w/${config.videoSlug}${p2pParam}`;
 
   await page.goto(url, {
     waitUntil: 'domcontentloaded',
     timeout: 120000
   });
 
-  // Esperar a que el reproductor de PeerTube cargue su interfaz visible
-// Esperar a que el botón exista en el código HTML (sin importar si es visible o no)
+  // Esperar a que el botón exista en el código HTML (sin importar si es visible o no)
   await page.waitForSelector('.vjs-big-play-button', {
     state: 'attached',
     timeout: 120000
