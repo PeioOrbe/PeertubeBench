@@ -7,12 +7,18 @@ const vmId = process.env.VM_ID || 'unknown';
 const viewerId = process.env.VIEWER_ID || '0';
 
 async function runViewer() {
-  const browser = await chromium.launch({
-    headless: true,
+const browser = await chromium.launch({
+    headless: "new", // Usa el nuevo motor Headless, mucho más realista
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
-      '--autoplay-policy=no-user-gesture-required'
+      '--autoplay-policy=no-user-gesture-required',
+      // 🔥 MAGIA WEBRTC: Engañar a Chrome para que permita conexiones P2P puras
+      '--use-fake-ui-for-media-stream',
+      '--use-fake-device-for-media-stream',
+      '--disable-features=WebRtcHideLocalIpsWithMdns', // Evita que Chrome esconda su IP
+      '--enforce-webrtc-ip-permission-check=false',
+      '--allow-file-access-from-files'
     ]
   });
 
