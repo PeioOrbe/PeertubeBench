@@ -8,7 +8,7 @@ const viewerId = process.env.VIEWER_ID || '0';
 
 async function runViewer() {
 const browser = await chromium.launch({
-    headless: "new", // Usa el nuevo motor Headless, mucho más realista
+    headless: true, 
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
