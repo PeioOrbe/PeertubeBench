@@ -1,6 +1,6 @@
 module.exports = {
   peertubeUrl: 'https://34.12.185.63',
-  videoSlug: 'wrWacCKkXAtDF6ERxgdXSc',
+  videoSlug: '9omtwSAqMTKDtb6pSg8u9W',
   viewersPerVM: 3,
   launchRate: 0.3,
   networkThrottle: {
