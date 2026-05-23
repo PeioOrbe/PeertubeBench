@@ -4,7 +4,7 @@ module.exports = {
   viewersPerVM: 3,
   launchRate: 1,
   networkThrottle: {
-    download: 2000,
+    download: 500,
     upload: 300,
     latency: 50
   },
