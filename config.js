@@ -9,7 +9,7 @@ module.exports = {
     latency: 0
   },
   testDuration: 600,
-  p2pDisabledRatio: 0.5,
+  p2pDisabledRatio: 0.7,
   metricsInterval: 10,
   prometheusUrl: 'http://34.12.185.63:9090'
 };
