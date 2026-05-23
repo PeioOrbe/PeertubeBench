@@ -10,18 +10,18 @@ async function runViewer() {
 const browser = await chromium.launch({
     headless: true, 
     args: [
+      '--ignore-certificate-errors', // 🔥 Obliga a WebRTC a confiar en tu IP
+      '--ignore-certificate-errors-spki-list', // 🔥 Desactiva la paranoia de WebRTC
       '--no-sandbox',
       '--disable-setuid-sandbox',
       '--autoplay-policy=no-user-gesture-required',
-      // 🔥 MAGIA WEBRTC: Engañar a Chrome para que permita conexiones P2P puras
       '--use-fake-ui-for-media-stream',
       '--use-fake-device-for-media-stream',
-      '--disable-features=WebRtcHideLocalIpsWithMdns', // Evita que Chrome esconda su IP
+      '--disable-features=WebRtcHideLocalIpsWithMdns',
       '--enforce-webrtc-ip-permission-check=false',
       '--allow-file-access-from-files'
     ]
   });
-
   const context = await browser.newContext({
     ignoreHTTPSErrors: true
   });
