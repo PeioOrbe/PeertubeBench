@@ -4,9 +4,9 @@ module.exports = {
   viewersPerVM: 3,
   launchRate: 0.3,
   networkThrottle: {
-    download: 1500,
+    download: 1000,
     upload: 1500,
-    latency: 50
+    latency: 0
   },
   testDuration: 600,
   p2pDisabledRatio: 0,
